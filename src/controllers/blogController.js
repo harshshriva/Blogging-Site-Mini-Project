@@ -2,7 +2,7 @@ const authorModel = require("../model/authorModel");
 const blogModel = require("../model/blogModel")
 
 
-// ---------------------- validation function ----------------------------------------------------------------------------------
+//  validation function 
 
 const isValid = function(value) {
     if (typeof value === 'undefined' || value === null) return false
@@ -15,7 +15,7 @@ const isValidRequestBody = function(requestBody) {
 }
 
 
-// / --------------------------- third api to create a blog  --------------------------------------------------------------------------//
+// third api to create a blog  
 
 
 const createBlogs = async function(req, res) {
@@ -65,7 +65,7 @@ const createBlogs = async function(req, res) {
 }
 
 
-// / --------------------------- fourth api to get blog by query without query get all blogs --------------------------------------------------------------------------//
+//  fourth api to get blog by query without query get all blogs 
 
 
 const getBlogs = async function(req, res) {
@@ -86,7 +86,7 @@ const getBlogs = async function(req, res) {
             }
             res.status(200).send({ status: true, data: result });
         } else {
-            res.status(404).send({ status: false, message: 'No blogs found of thia author' })
+            res.status(404).send({ status: false, message: 'No blogs found of that author' })
         }
 
     } catch (error) {
@@ -94,7 +94,7 @@ const getBlogs = async function(req, res) {
     }
 }
 
-//------------------------------- five api to update a blog   --------------------------------------------------------------------------//
+// five api to update a blog   
 
 
 const updateBlogs = async function(req, res) {
@@ -152,7 +152,7 @@ const updateBlogs = async function(req, res) {
 }
 
 
-//-------------------------------- sixth api to delete a blog by its id --------------------------------------------------------------------------//
+//sixth api to delete a blog by its id 
 
 
 
@@ -163,7 +163,7 @@ const deleteBlogByid = async function(req, res) {
 
         const data = await blogModel.findOne({ _id: req.params.blogId, isDeleted: false });
         if (!data) {
-            res.status(404).send({ status: false, msg: "blog doe not exist or already deleted" });
+            res.status(404).send({ status: false, msg: "blog does not exist or already deleted" });
         }
 
         if (!(data.authorId == req.body.tokenId)) {
@@ -179,7 +179,7 @@ const deleteBlogByid = async function(req, res) {
     }
 }
 
-// / --------------------------- seventh api to delete blog by query condition  --------------------------------------------------------------------------//
+//seventh api to delete blog by query condition  
 
 
 const deleteBlogByQuerConditoin = async function(req, res) {
@@ -188,7 +188,7 @@ const deleteBlogByQuerConditoin = async function(req, res) {
             return res.status(400).send({ status: false, msg: 'please provide the query condition' });
         }
 
-        // here we us ethe authroization onle the author can delete the blogs with qureys
+        // here we us ethe authroization only the author can delete the blogs with qureys
 
         let searchFilter = { authorId: req.body.tokenId }
 
@@ -221,7 +221,7 @@ const deleteBlogByQuerConditoin = async function(req, res) {
     }
 }
 
-//-------------------------------------------------------------------------------------------------------------------------------------//
+
 
 module.exports.getBlogs = getBlogs;
 module.exports.deleteBlogByid = deleteBlogByid;

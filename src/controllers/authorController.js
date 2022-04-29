@@ -41,11 +41,11 @@ const createAuthor = async function(req, res) {
         }
 
         if (!isValid(requestBody.email)) {
-            res.status(400).send({ status: false, message: 'Title is required' })
+            res.status(400).send({ status: false, message: 'email is required' })
             return
         }
         if (!isValid(requestBody.password)) {
-            res.status(400).send({ status: false, message: 'Title is required' })
+            res.status(400).send({ status: false, message: 'password is required' })
             return
         }
         if (!(validator.isEmail(requestBody.email))) {
@@ -53,6 +53,7 @@ const createAuthor = async function(req, res) {
         }
 
         const isEmailAlreadyUsed = await authorModel.findOne({ email: requestBody.email });
+
 
         if (isEmailAlreadyUsed) {
             res.status(400).send({ status: false, message: `${requestBody.email} email address is already registered` })

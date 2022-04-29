@@ -31,13 +31,17 @@ const blogSchema = new mongoose.Schema({
         type: String,
         trim: true
     }],
-    deletedAt: Date,
+    deletedAt: {
+        type: Date,
+        default: Date.now(),
+    },
     isDeleted: {
         type: Boolean,
         default: false
     },
     publishedAt: {
         type: Date
+
     },
     isPublished: {
         type: Boolean,
