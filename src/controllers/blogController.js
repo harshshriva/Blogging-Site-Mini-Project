@@ -1,9 +1,7 @@
 const authorModel = require("../model/authorModel");
 const blogModel = require("../model/blogModel")
 
-
-//  validation function 
-
+//validation function 
 const isValid = function(value) {
     if (typeof value === 'undefined' || value === null) return false
     if (typeof value === 'string' && value.trim().length === 0) return false
@@ -12,11 +10,10 @@ const isValid = function(value) {
 
 const isValidRequestBody = function(requestBody) {
     return Object.keys(requestBody).length > 0
+        //will return an array of all keys. so, we can simply get the length of an array with .length
 }
 
-
-// third api to create a blog  
-
+//api to create a blog  
 
 const createBlogs = async function(req, res) {
     try {
@@ -45,7 +42,7 @@ const createBlogs = async function(req, res) {
             return res.status(400).send({ status: false, message: 'Blog category is required' })
         }
 
-        if (!(requestBody.authorId === requestBody.tokenId)) {
+        if (!requestBody.authorId === requestBody.tokenId) {
             return res.status(400).send({ status: false, msg: "unauthorized access" })
         }
 
@@ -65,7 +62,7 @@ const createBlogs = async function(req, res) {
 }
 
 
-//  fourth api to get blog by query without query get all blogs 
+// api to get blog by query without query get all blogs 
 
 
 const getBlogs = async function(req, res) {
@@ -94,26 +91,22 @@ const getBlogs = async function(req, res) {
     }
 }
 
-// five api to update a blog   
-
-
+// api to update a blog   
 const updateBlogs = async function(req, res) {
     try {
         let requestBody = req.body
 
-        // authorization to check the user is authroized to update blog or not only author can update our own blog
+        // authorization to check the user is authroized to update blog or not only author can update our own blog.
 
         const data = await blogModel.findOne({ _id: req.params.blogId, isDeleted: false })
 
         if (!data) {
             return res.status(404).send({ msg: "blog doesnot exist or already deleted" });
         }
-        // authroization to check the auther has access to update the blog or not 
+        // authroization to check the author has access to update the blog or not
         if (!(data.authorId == req.body.tokenId)) {
             return res.status(400).send({ status: false, msg: "unauthorized access" })
         }
-
-
         let updateData = { PublishedAt: new Date(), isPublished: true }
         if (requestBody.title) {
             if (!isValid(requestBody.title)) {
@@ -143,7 +136,6 @@ const updateBlogs = async function(req, res) {
             updateData.$addToSet = { subCategory: requestBody.subCategory }
         }
 
-
         let updateblog = await blogModel.findOneAndUpdate({ _id: req.params.blogId, isDeleted: false }, updateData, { new: true })
         res.status(200).send({ msg: "successfully updated", data: updateblog });
     } catch (error) {
@@ -152,15 +144,10 @@ const updateBlogs = async function(req, res) {
 }
 
 
-//sixth api to delete a blog by its id 
-
-
-
+// api to delete a blog by its id 
 const deleteBlogByid = async function(req, res) {
     try {
-
-        // authroization for check the user is authrorized to delete blog or not only author can delete his own blog
-
+        // authroization 
         const data = await blogModel.findOne({ _id: req.params.blogId, isDeleted: false });
         if (!data) {
             res.status(404).send({ status: false, msg: "blog does not exist or already deleted" });
@@ -179,16 +166,12 @@ const deleteBlogByid = async function(req, res) {
     }
 }
 
-//seventh api to delete blog by query condition  
-
-
+//api to delete blog by query condition  
 const deleteBlogByQuerConditoin = async function(req, res) {
     try {
         if (Object.keys(req.query).length === 0) {
             return res.status(400).send({ status: false, msg: 'please provide the query condition' });
         }
-
-        // here we us ethe authroization only the author can delete the blogs with qureys
 
         let searchFilter = { authorId: req.body.tokenId }
 
@@ -220,9 +203,6 @@ const deleteBlogByQuerConditoin = async function(req, res) {
         res.status(400).send({ status: false, msg: error.message });
     }
 }
-
-
-
 module.exports.getBlogs = getBlogs;
 module.exports.deleteBlogByid = deleteBlogByid;
 module.exports.deleteBlogByQuerConditoin = deleteBlogByQuerConditoin;

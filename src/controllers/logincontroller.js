@@ -2,16 +2,12 @@ const authorModel = require("../model/authorModel")
 const jwt = require('jsonwebtoken')
 
 // validation function 
-
-
 const isValidRequestBody = function(requestBody) {
     return Object.keys(requestBody).length > 0
+        //will return an array of all keys. so, we can simply get the length of an array with .length
 }
 
-
-
-//second api to looged in author 
-
+//api to loogin in author 
 const login = async function(req, res) {
     try {
         const requestBody = req.body;
@@ -36,8 +32,4 @@ const login = async function(req, res) {
         res.status(400).send({ status: false, error: error.message })
     }
 }
-
-
-
-
 module.exports.login = login;

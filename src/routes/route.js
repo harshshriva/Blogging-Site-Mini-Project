@@ -10,8 +10,6 @@ const middleWare = require("../middleware/middleWare")
 
 router.post('/createAuthor', authorController.createAuthor);
 
-router.post('/login', loginController.login);
-
 router.post('/createBlogs', middleWare.auth, blogController.createBlogs);
 
 router.get('/getBlogs', middleWare.auth, blogController.getBlogs);
@@ -22,6 +20,6 @@ router.delete('/blogs/:blogId', middleWare.auth, blogController.deleteBlogByid);
 
 router.delete('/blogs', middleWare.auth, blogController.deleteBlogByQuerConditoin);
 
-
+router.post('/login', loginController.login);
 
 module.exports = router;

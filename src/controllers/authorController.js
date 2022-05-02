@@ -1,9 +1,7 @@
 const authorModel = require("../model/authorModel");
 const validator = require('validator')
 
-
-// ---------------------- validation function -------------------------------------------------------------------------------------//
-
+// validation function 
 const isValid = function(value) {
     if (typeof value === 'undefined' || value === null) return false
     if (typeof value === 'string' && value.trim().length === 0) return false
@@ -12,11 +10,10 @@ const isValid = function(value) {
 
 const isValidRequestBody = function(requestBody) {
     return Object.keys(requestBody).length > 0
+        //will return an array of all keys. so, we can simply get the length of an array with .length
 }
 
-
-// --------------------------- first api to create author --------------------------------------------------------------------------//
-
+// api to create author 
 const createAuthor = async function(req, res) {
     try {
         let requestBody = req.body
@@ -25,12 +22,12 @@ const createAuthor = async function(req, res) {
             res.status(400).send({ status: false, message: 'Invalid request parameters. Please provide author details' })
             return
         }
-        if (!isValid(requestBody.firstname)) {
+        if (!isValid(requestBody.fname)) {
             res.status(400).send({ status: false, message: 'First name is required' })
             return
         }
 
-        if (!isValid(requestBody.lastname)) {
+        if (!isValid(requestBody.lname)) {
             res.status(400).send({ status: false, message: 'Last name is required' })
             return
         }
@@ -67,6 +64,4 @@ const createAuthor = async function(req, res) {
         res.status(500).send({ status: false, msg: error.message });
     }
 };
-
-
 module.exports.createAuthor = createAuthor;

@@ -1,11 +1,11 @@
 const mongoose = require("mongoose");
 const authorSchema = new mongoose.Schema({
-    firstname: {
+    fname: {
         type: String,
         required: true,
         trim: true
     },
-    lastname: {
+    lname: {
         type: String,
         required: true,
         trim: true
